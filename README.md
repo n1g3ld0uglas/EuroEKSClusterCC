@@ -61,6 +61,11 @@ If your cluster has an existing version of Calico installed, verify that Calico 
 curl https://installer.calicocloud.io/*****.*****-management_install.sh | bash
 ```
 
+Check for cluster security group of cluster:
+```
+aws eks describe-cluster --name nigel-eks-cluster --query cluster.resourcesVpcConfig.clusterSecurityGroupId
+```
+
 If your cluster does not have applications, you can use the following storefront application:
 ```
 kubectl apply -f https://installer.calicocloud.io/storefront-demo.yaml
@@ -70,6 +75,22 @@ Create the Product Tier:
 ```
 kubectl apply -f https://raw.githubusercontent.com/n1g3ld0uglas/CCSecOps/main/Tiers/product.yaml
 ```
+
+Create the DMZ Policy:
+```
+kubectl apply -f https://raw.githubusercontent.com/n1g3ld0uglas/CCSecOps/main/ZBA/dmz.yaml
+```
+
+Create the Trusted Policy:
+```
+kubectl apply -f https://raw.githubusercontent.com/n1g3ld0uglas/CCSecOps/main/ZBA/trusted.yaml
+```
+ 
+Create the Restricted Policy:
+```
+kubectl apply -f https://raw.githubusercontent.com/n1g3ld0uglas/CCSecOps/main/ZBA/restricted.yaml
+``` 
+ 
 
 ## Increase the Sync Rate: 
 ``` 
