@@ -53,3 +53,17 @@ Finally, add nodes to your EKS cluster
 ```
 eksctl create nodegroup --cluster nigel-eks-cluster --node-type t3.xlarge --max-pods-per-node 58
 ```
+
+## Configure Calico Cloud:
+
+If your cluster has an existing version of Calico installed, verify that Calico components are not managed by any kind of Kubernetes reconciler (for example, Addon-manager) - https://docs.calicocloud.io/install/system-requirements#general
+```
+curl https://installer.calicocloud.io/*****.*****-management_install.sh | bash
+```
+
+If your cluster does not have applications, you can use the following storefront application:
+```
+kubectl apply -f https://installer.calicocloud.io/storefront-demo.yaml
+```
+ 
+ 
