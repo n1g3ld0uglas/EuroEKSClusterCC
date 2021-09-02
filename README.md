@@ -1,4 +1,4 @@
-# EuroEKSClusterCC
+# Eurozone EKS Cluster Calico Cloud
 Eurozone EKS Cluster for Calico Cloud
 ## Download EKSCTL
 Download and extract the latest release of eksctl with the following command
@@ -46,6 +46,13 @@ eksctl create nodegroup --cluster nigel-eks-cluster --node-type t3.xlarge --max-
 ## Configure Calico Cloud:
 If your cluster has an existing version of Calico installed, verify that Calico components are not managed by any kind of Kubernetes reconciler (for example, Addon-manager) - https://docs.calicocloud.io/install/system-requirements#general
 ```
+kubectl get addonmanager.kubernetes.io/mode -n tigera-operator tigera-operator -o yaml | grep ' addonmanager.kubernetes.io/mode:'
+```
+```
+kubectl get addonmanager.kubernetes.io/mode -n kube-system calico-node -o yaml | grep ' addonmanager.kubernetes.io/mode:'
+```
+Get your Calico Cloud installation script from the Web UI - https://qq9psbdn-management.calicocloud.io/clusters/grid
+```
 curl https://installer.calicocloud.io/*****.*****-management_install.sh | bash
 ```
 Check for cluster security group of cluster:
@@ -60,6 +67,7 @@ Create the Product Tier:
 ```
 kubectl apply -f https://raw.githubusercontent.com/n1g3ld0uglas/CCSecOps/main/Tiers/product.yaml
 ```
+## Zone-Based Architecture  
 Create the DMZ Policy:
 ```
 kubectl apply -f https://raw.githubusercontent.com/n1g3ld0uglas/CCSecOps/main/ZBA/dmz.yaml
