@@ -123,6 +123,45 @@ Allow traffic for Kube-DNS / CoreDNS:
 ```
 kubectl apply -f https://raw.githubusercontent.com/n1g3ld0uglas/calico-enterprise-eks-workshop/main/policies/allow-kubedns.yaml
 ```
+Create a Default-Deny in the 'Default' namespace:
+```
+kubectl apply -f https://raw.githubusercontent.com/n1g3ld0uglas/calico-enterprise-eks-workshop/main/policies/default-deny.yaml
+```
+## Deploy the Boutique Store Application
+
+```
+kubectl apply -f https://raw.githubusercontent.com/GoogleCloudPlatform/microservices-demo/master/release/kubernetes-manifests.yaml
+```  
+We also offer a test application for Kubernetes-specific network policies:
+```
+kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/tigera-eks-workshop/main/demo/dev/app.manifests.yaml
+``` 
+Deploy policies for the Boutique application:
+```
+kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/tigera-eks-workshop/main/demo/boutiqueshop/policies.yaml
+``` 
+Deploy policies for the K8 test application:
+```
+kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/tigera-eks-workshop/main/demo/dev/policies.yaml
+```
+## Alerting
+```
+kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/tigera-eks-workshop/main/demo/50-alerts/globalnetworkset.changed.yaml
+```
+```
+kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/tigera-eks-workshop/main/demo/50-alerts/unsanctioned.dns.access.yaml
+```
+```
+kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/tigera-eks-workshop/main/demo/50-alerts/unsanctioned.lateral.access.yaml
+``` 
+## Compliance Reporting
+```   
+kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/tigera-eks-workshop/main/demo/40-compliance-reports/daily-cis-results.yaml
+```
+```  
+kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/tigera-eks-workshop/main/demo/40-compliance-reports/cluster-reports.yaml
+```  
+
 ## Scaling-down the cluster
 Scale deployment down to '0' replicas to avoid scaling conflicts:
 ```
