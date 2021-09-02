@@ -107,11 +107,15 @@ Applies to anything that IS NOT listed with the namespace selector = 'acme'
 ```
 kubectl apply -f https://raw.githubusercontent.com/n1g3ld0uglas/CCSecOps/main/SecurityPolicies/block-feodo.yaml
 ```
-## Scaling-down the cluster
 Determine a DNS provider of your cluster (mine is 'coredns')
 ```
 kubectl get deployments -l k8s-app=kube-dns -n kube-system
+```  
+Allow traffic for Kube-DNS / CoreDNS:
 ```
+kubectl apply -f https://raw.githubusercontent.com/n1g3ld0uglas/calico-enterprise-eks-workshop/main/policies/allow-kubedns.yaml
+```
+## Scaling-down the cluster
 Scale deployment down to '0' replicas to avoid scaling conflicts:
 ```
 kubectl scale deployments/coredns --replicas=0 -n kube-system
