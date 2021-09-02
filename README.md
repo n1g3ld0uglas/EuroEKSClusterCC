@@ -65,5 +65,30 @@ If your cluster does not have applications, you can use the following storefront
 ```
 kubectl apply -f https://installer.calicocloud.io/storefront-demo.yaml
 ```
+
+Create the Product Tier:
+```
+kubectl apply -f https://raw.githubusercontent.com/n1g3ld0uglas/CCSecOps/main/Tiers/product.yaml
+```
+
+## Increase the Sync Rate: 
+``` 
+kubectl patch felixconfiguration.p default -p '{"spec":{"flowLogsFlushInterval":"10s"}}'
+kubectl patch felixconfiguration.p default -p '{"spec":{"dnsLogsFlushInterval":"10s"}}'
+kubectl patch felixconfiguration.p default -p '{"spec":{"flowLogsFileAggregationKindForAllowed":1}}'
+```
+
+Introduce the Rogue Application:
+```
+kubectl apply -f https://installer.calicocloud.io/rogue-demo.yaml 
+```
  
- 
+Quarantine the Rogue Application: 
+```
+kubectl apply -f https://raw.githubusercontent.com/n1g3ld0uglas/CCSecOps/main/SecurityPolicies/quarantine.yaml
+```
+
+Delete the Rogue Application:
+```
+kubectl delete -f https://installer.calicocloud.io/rogue-demo.yaml 
+```
