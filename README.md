@@ -18,19 +18,19 @@ First, create an Amazon EKS cluster without any nodes
 eksctl create cluster  --name tigera-workshop  --with-oidc  --without-nodegroup
 ```
 ## Make the cluster EU compatible
-If necessary, replace <region-code> with Region the cluster's in
+If necessary, replace region-code with Region the cluster is in:
 ```
 sed -i.bak -e 's/us-west-2/eu-west-1/' aws-k8s-cni.yaml
-```  
+```
 If necessary, replace <account> with Account from the EKS addon
 ```
 sed -i.bak -e 's/602401143452/602401143452/' aws-k8s-cni.yaml
-```  
+```
 Address for Region that your cluster is in:
 ```
 kubectl apply -f aws-k8s-cni.yaml
-```  
-## Create a node group for the cluster 
+```
+## Create a node group for the cluster
 Confirm regions are configured correctly:
 ```
 kubectl get node -o=jsonpath='{range .items[*]}{.metadata.name}{"\tProviderId: "}{.spec.providerID}{"\n"}{end}'
@@ -41,10 +41,10 @@ kubectl get pod -n kube-system -o wide
 ```
 Finally, add nodes to your EKS cluster
 ```
-eksctl create nodegroup --cluster nigel-eks-cluster --node-type t3.xlarge --max-pods-per-node 58
+eksctl create nodegroup --cluster nigel-eks-cluster --node-type t3.xlarge --nodes=3 --nodes-min=0 --nodes-max=3 --max-pods-per-node 58
 ```
 ## Configure Calico Cloud:
-If your cluster has an existing version of Calico installed, verify that Calico components are not managed by any kind of Kubernetes reconciler (for example, Addon-manager) - https://docs.calicocloud.io/install/system-requirements#general
+If your cluster has an existing version of Calico installed, verify that Calico components are not managed by any kind of Kubernetes reconciler / Addon-manager - https://docs.calicocloud.io/install/system-requirements#general
 ```
 kubectl get addonmanager.kubernetes.io/mode -n tigera-operator tigera-operator -o yaml | grep ' addonmanager.kubernetes.io/mode:'
 ```
