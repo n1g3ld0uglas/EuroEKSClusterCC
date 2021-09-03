@@ -127,6 +127,19 @@ Create a Default-Deny in the 'Default' namespace:
 ```
 kubectl apply -f https://raw.githubusercontent.com/n1g3ld0uglas/calico-enterprise-eks-workshop/main/policies/default-deny.yaml
 ```
+## Anonymization Attacks:
+Create the threat feed for EJR-VPN: 
+``` 
+kubectl apply -f https://docs.tigera.io/manifests/threatdef/ejr-vpn.yaml
+```
+Create the threat feed for Tor Bulk Exit Nodes: 
+``` 
+kubectl apply -f https://docs.tigera.io/manifests/threatdef/tor-exit-feed.yaml
+```
+Additionally, feeds can be checked using following command:
+``` 
+kubectl get globalthreatfeeds 
+```  
 ## Deploy the Boutique Store Application
 
 ```
