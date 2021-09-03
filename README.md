@@ -90,10 +90,6 @@ Introduce the Rogue Application:
 ```
 kubectl apply -f https://installer.calicocloud.io/rogue-demo.yaml 
 ``` 
-Quarantine the Rogue Application: 
-```
-kubectl apply -f https://raw.githubusercontent.com/n1g3ld0uglas/CCSecOps/main/SecurityPolicies/quarantine.yaml
-```
 Delete the Rogue Application:
 ```
 kubectl delete -f https://installer.calicocloud.io/rogue-demo.yaml 
@@ -110,7 +106,7 @@ kubectl get globalnetworksets threatfeed.feodo-tracker -o yaml
 Create the 'Security' Tier:
 ``` 
 kubectl apply -f https://raw.githubusercontent.com/n1g3ld0uglas/CCSecOps/main/Tiers/security.yaml
-```
+```  
 Applies to anything that IS NOT listed with the namespace selector = 'acme' 
 ```
 kubectl apply -f https://raw.githubusercontent.com/n1g3ld0uglas/CCSecOps/main/SecurityPolicies/block-feodo.yaml
@@ -128,6 +124,10 @@ Create a Default-Deny in the 'Default' namespace:
 kubectl apply -f https://raw.githubusercontent.com/n1g3ld0uglas/calico-enterprise-eks-workshop/main/policies/default-deny.yaml
 ```
 ## Anonymization Attacks:
+Quarantine the Rogue Application: 
+```
+kubectl apply -f https://raw.githubusercontent.com/n1g3ld0uglas/CCSecOps/main/SecurityPolicies/quarantine.yaml
+```  
 Create the threat feed for EJR-VPN: 
 ``` 
 kubectl apply -f https://docs.tigera.io/manifests/threatdef/ejr-vpn.yaml
