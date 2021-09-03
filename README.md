@@ -176,15 +176,22 @@ kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/tigera-eks-w
 ```  
 
 ## Scaling-down the cluster
+
+<img width="689" alt="Screenshot 2021-09-03 at 10 15 38" src="https://user-images.githubusercontent.com/82048393/131981700-8be8d093-c3dd-4c07-9e0a-4bca363163c4.png">
+  
 Scale deployment down to '0' replicas to avoid scaling conflicts:
 ```
 kubectl scale deployments/coredns --replicas=0 -n kube-system
 ```
+
+<img width="692" alt="Screenshot 2021-09-03 at 10 17 03" src="https://user-images.githubusercontent.com/82048393/131981870-f1246d0a-6017-4df4-a1ab-71e560b8c5ae.png">
+  
+  
 Find a Node Group associated with the cluster - tigera-workshop
 ```
 eksctl get nodegroup --cluster tigera-workshop
 ```
 Scale the Node Group ID to 0 nodes (which should stop K8 activity)
 ```
-eksctl scale nodegroup --cluster tigera-workshop --name ng-590ee331 --nodes 0
+eksctl scale nodegroup --cluster tigera-workshop --name ng-8d471f34 --nodes 0
 ```
