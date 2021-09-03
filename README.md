@@ -41,7 +41,7 @@ kubectl get pod -n kube-system -o wide
 ```
 Finally, add nodes to your EKS cluster
 ```
-eksctl create nodegroup --cluster nigel-eks-cluster --node-type t3.xlarge --nodes=3 --nodes-min=0 --nodes-max=3 --max-pods-per-node 58
+eksctl create nodegroup --cluster tigera-workshop --node-type t3.xlarge --nodes=3 --nodes-min=0 --nodes-max=3 --max-pods-per-node 58
 ```
 ## Configure Calico Cloud:
 If your cluster has an existing version of Calico installed, verify that Calico components are not managed by any kind of Kubernetes reconciler / Addon-manager - https://docs.calicocloud.io/install/system-requirements#general
@@ -57,7 +57,7 @@ curl https://installer.calicocloud.io/*****.*****-management_install.sh | bash
 ```
 Check for cluster security group of cluster:
 ```
-aws eks describe-cluster --name nigel-eks-cluster --query cluster.resourcesVpcConfig.clusterSecurityGroupId
+aws eks describe-cluster --name tigera-workshop --query cluster.resourcesVpcConfig.clusterSecurityGroupId
 ```
 If your cluster does not have applications, you can use the following storefront application:
 ```
@@ -167,11 +167,11 @@ Scale deployment down to '0' replicas to avoid scaling conflicts:
 ```
 kubectl scale deployments/coredns --replicas=0 -n kube-system
 ```
-Find a Node Group associated with the cluster - nigel-eks-cluster
+Find a Node Group associated with the cluster - tigera-workshop
 ```
-eksctl get nodegroup --cluster nigel-eks-cluster
+eksctl get nodegroup --cluster tigera-workshop
 ```
 Scale the Node Group ID to 0 nodes (which should stop K8 activity)
 ```
-eksctl scale nodegroup --cluster nigel-eks-cluster --name ng-590ee331 --nodes 0
+eksctl scale nodegroup --cluster tigera-workshop --name ng-590ee331 --nodes 0
 ```
