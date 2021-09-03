@@ -88,11 +88,11 @@ kubectl patch felixconfiguration.p default -p '{"spec":{"flowLogsFileAggregation
 ```
 Introduce the Rogue Application:
 ```
-kubectl apply -f https://installer.calicocloud.io/rogue-demo.yaml 
+kubectl apply -f https://installer.calicocloud.io/rogue-demo.yaml -n storefront
 ``` 
 Delete the Rogue Application:
 ```
-kubectl delete -f https://installer.calicocloud.io/rogue-demo.yaml 
+kubectl delete -f https://installer.calicocloud.io/rogue-demo.yaml -n storefront
 ```
 ## Introduce Threat Feeds:
 Create the FeodoTracker globalThreatFeed: 
