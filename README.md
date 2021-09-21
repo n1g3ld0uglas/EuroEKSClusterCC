@@ -174,6 +174,60 @@ kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/tigera-eks-w
 ```  
 kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/tigera-eks-workshop/main/demo/40-compliance-reports/cluster-reports.yaml
 ```  
+  
+## Dynamic Packet Capture:
+
+Check that there are no packet captures in this directory  
+```
+ls *pcap
+```
+A Packet Capture resource (PacketCapture) represents captured live traffic for debugging microservices and application interaction inside a Kubernetes cluster.</br>
+https://docs.tigera.io/reference/calicoctl/captured-packets  
+```
+kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/workloads/packet-capture.yaml
+```
+Confirm this is now running:  
+```  
+kubectl get packetcapture -n storefront
+```
+Once the capture is created, you can delete the collector:
+```
+kubectl delete -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/workloads/packet-capture.yaml
+```
+#### Install a Calicoctl plugin  
+Use the following command to download the calicoctl binary:</br>
+https://docs.tigera.io/maintenance/clis/calicoctl/install#install-calicoctl-as-a-kubectl-plugin-on-a-single-host
+``` 
+curl -o kubectl-calico -O -L  https://docs.tigera.io/download/binaries/v3.7.0/calicoctl
+``` 
+Set the file to be executable.
+``` 
+chmod +x kubectl-calico
+```
+Verify the plugin works:
+``` 
+./kubectl-calico -h
+``` 
+#### Move the packet capture
+```
+./kubectl-calico captured-packets copy storefront-capture -n storefront
+``` 
+Check that the packet captures are now created:
+```
+ls *pcap
+```
+#### Install TSHARK and troubleshoot per pod 
+Use Yum To Search For The Package That Installs Tshark:</br>
+https://www.question-defense.com/2010/03/07/install-tshark-on-centos-linux-using-the-yum-package-manager
+```  
+sudo yum install wireshark
+```  
+```  
+tshark -r frontend-75875cb97c-2fkt2_enib222096b242.pcap -2 -R dns | grep microservice1
+``` 
+```  
+tshark -r frontend-75875cb97c-2fkt2_enib222096b242.pcap -2 -R dns | grep microservice2
+```  
 
 ## Scaling-down the cluster
 
