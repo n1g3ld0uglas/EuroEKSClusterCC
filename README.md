@@ -140,6 +140,34 @@ Additionally, feeds can be checked using following command:
 ``` 
 kubectl get globalthreatfeeds 
 ```  
+
+## Configuring Honeypods
+
+Create the Tigera-Internal namespace and alerts for the honeypod services:
+
+```
+kubectl apply -f https://docs.tigera.io/manifests/threatdef/honeypod/common.yaml
+```
+
+Expose a vulnerable SQL service that contains an empty database with easy access.<br/>
+The pod can be discovered via ClusterIP or DNS lookup:
+
+```
+kubectl apply -f https://docs.tigera.io/manifests/threatdef/honeypod/vuln-svc.yaml 
+```
+
+Verify the deployment - ensure that honeypods are running within the tigera-internal namespace:
+
+```
+kubectl get pods -n tigera-internal -o wide
+```
+
+And verify that global alerts are set for honeypods:
+
+```
+kubectl get globalalerts
+```
+
 ## Deploy the Boutique Store Application
 
 ```
