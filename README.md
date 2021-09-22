@@ -239,7 +239,8 @@ kubectl scale deployments/coredns --replicas=0 -n kube-system
 ```
 
 <img width="692" alt="Screenshot 2021-09-03 at 10 17 03" src="https://user-images.githubusercontent.com/82048393/131981870-f1246d0a-6017-4df4-a1ab-71e560b8c5ae.png">
-  
+
+## Destroying your cluster
   
 Find a Node Group associated with the cluster - tigera-workshop
 ```
@@ -248,4 +249,16 @@ eksctl get nodegroup --cluster tigera-workshop
 Scale the Node Group ID to 0 nodes (which should stop K8 activity)
 ```
 eksctl scale nodegroup --cluster tigera-workshop --name ng-8d471f34 --nodes 0
+```
+When you're done using an Amazon EKS cluster, you should delete the resources associated with it so that you don't incur any unnecessary costs.<br/>
+https://docs.aws.amazon.com/eks/latest/userguide/delete-cluster.html<br/>
+<br/>
+```
+kubectl get svc --all-namespaces
+```
+```
+kubectl delete svc <service-name>
+```
+```
+eksctl delete cluster --name tigera-workshop
 ```
