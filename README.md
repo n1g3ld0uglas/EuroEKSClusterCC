@@ -36,6 +36,7 @@ Check pod status again:
 ```
 kubectl get pod -n kube-system -o wide
 ```
+
 ## Configure Calico Cloud:
 Get your Calico Cloud installation script from the Web UI - https://qq9psbdn-management.calicocloud.io/clusters/grid
 ```
@@ -43,7 +44,7 @@ curl https://installer.calicocloud.io/*****.*****-management_install.sh | bash
 ```
 Check for cluster security group of cluster:
 ```
-aws eks describe-cluster --name tigera-workshop --query cluster.resourcesVpcConfig.clusterSecurityGroupId
+aws eks describe-cluster --name aws-howdy-partner --query cluster.resourcesVpcConfig.clusterSecurityGroupId
 ```
 If your cluster does not have applications, you can use the following storefront application:
 ```
@@ -51,21 +52,36 @@ kubectl apply -f https://installer.calicocloud.io/storefront-demo.yaml
 ```
 Create the Product Tier:
 ```
-kubectl apply -f https://raw.githubusercontent.com/n1g3ld0uglas/CCSecOps/main/Tiers/product.yaml
-```
+kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/policies/product.yaml
+```  
 ## Zone-Based Architecture  
 Create the DMZ Policy:
 ```
-kubectl apply -f https://raw.githubusercontent.com/n1g3ld0uglas/CCSecOps/main/ZBA/dmz.yaml
+kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/policies/dmz.yaml
 ```
 Create the Trusted Policy:
 ```
-kubectl apply -f https://raw.githubusercontent.com/n1g3ld0uglas/CCSecOps/main/ZBA/trusted.yaml
+kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/policies/trusted.yaml
 ``` 
 Create the Restricted Policy:
 ```
-kubectl apply -f https://raw.githubusercontent.com/n1g3ld0uglas/CCSecOps/main/ZBA/restricted.yaml
+kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/policies/restricted.yaml
+```
+
+## Allow Kube-DNS Traffic: 
+Create the 'Security' Tier:
 ``` 
+kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/policies/security.yaml
+```
+Determine a DNS provider of your cluster (mine is 'coredns' by default)
+```
+kubectl get deployments -l k8s-app=kube-dns -n kube-system
+```    
+Allow traffic for Kube-DNS / CoreDNS:
+```
+kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/policies/allow-kubedns.yaml
+```
+  
 ## Increase the Sync Rate: 
 ``` 
 kubectl patch felixconfiguration.p default -p '{"spec":{"flowLogsFlushInterval":"10s"}}'
@@ -76,57 +92,52 @@ Introduce the Rogue Application:
 ```
 kubectl apply -f https://installer.calicocloud.io/rogue-demo.yaml -n storefront
 ``` 
-Delete the Rogue Application:
+Quarantine the Rogue Application: 
 ```
-kubectl delete -f https://installer.calicocloud.io/rogue-demo.yaml -n storefront
+kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/policies/quarantine.yaml
 ```
 ## Introduce Threat Feeds:
 Create the FeodoTracker globalThreatFeed: 
 ``` 
-kubectl apply -f https://raw.githubusercontent.com/n1g3ld0uglas/CCSecOps/main/ThreatFeeds/feodo-tracker.yaml
+kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/threatfeed/feodo-tracker.yaml
 ```
 Verify the GlobalNetworkSet is configured correctly:
 ``` 
 kubectl get globalnetworksets threatfeed.feodo-tracker -o yaml
 ``` 
-Create the 'Security' Tier:
-``` 
-kubectl apply -f https://raw.githubusercontent.com/n1g3ld0uglas/CCSecOps/main/Tiers/security.yaml
-```  
+
 Applies to anything that IS NOT listed with the namespace selector = 'acme' 
+
 ```
-kubectl apply -f https://raw.githubusercontent.com/n1g3ld0uglas/CCSecOps/main/SecurityPolicies/block-feodo.yaml
+kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/threatfeed/block-feodo.yaml
 ```
-Determine a DNS provider of your cluster (mine is 'coredns')
-```
-kubectl get deployments -l k8s-app=kube-dns -n kube-system
-```  
-Allow traffic for Kube-DNS / CoreDNS:
-```
-kubectl apply -f https://raw.githubusercontent.com/n1g3ld0uglas/calico-enterprise-eks-workshop/main/policies/allow-kubedns.yaml
-```
+
 Create a Default-Deny in the 'Default' namespace:
+
 ```
-kubectl apply -f https://raw.githubusercontent.com/n1g3ld0uglas/calico-enterprise-eks-workshop/main/policies/default-deny.yaml
+kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/policies/default-deny.yaml
 ```
-## Anonymization Attacks:
-Quarantine the Rogue Application: 
-```
-kubectl apply -f https://raw.githubusercontent.com/n1g3ld0uglas/CCSecOps/main/SecurityPolicies/quarantine.yaml
-```  
+
+## Anonymization Attacks:  
 Create the threat feed for EJR-VPN: 
+
 ``` 
 kubectl apply -f https://docs.tigera.io/manifests/threatdef/ejr-vpn.yaml
 ```
+
 Create the threat feed for Tor Bulk Exit Nodes: 
+
 ``` 
 kubectl apply -f https://docs.tigera.io/manifests/threatdef/tor-exit-feed.yaml
 ```
+
 Additionally, feeds can be checked using following command:
+
 ``` 
 kubectl get globalthreatfeeds 
-```  
+```
 
+  
 ## Configuring Honeypods
 
 Create the Tigera-Internal namespace and alerts for the honeypod services:
@@ -154,41 +165,118 @@ And verify that global alerts are set for honeypods:
 kubectl get globalalerts
 ```
 
+  
+  
+  
 ## Deploy the Boutique Store Application
 
 ```
 kubectl apply -f https://raw.githubusercontent.com/GoogleCloudPlatform/microservices-demo/master/release/kubernetes-manifests.yaml
 ```  
+
 We also offer a test application for Kubernetes-specific network policies:
+
 ```
-kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/tigera-eks-workshop/main/demo/dev/app.manifests.yaml
-``` 
+kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/workloads/test.yaml
+```
+
+#### Block the test application
+
+Deny the frontend pod traffic:
+
+```
+kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/policies/frontend-deny.yaml
+```
+
+Allow the frontend pod traffic:
+
+```
+kubectl delete -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/policies/frontend-deny.yaml
+```
+
+#### Introduce segmented policies
 Deploy policies for the Boutique application:
+  
 ```
-kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/tigera-eks-workshop/main/demo/boutiqueshop/policies.yaml
+kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/policies/boutique-policies.yaml
 ``` 
 Deploy policies for the K8 test application:
-```
-kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/tigera-eks-workshop/main/demo/dev/policies.yaml
-```
-## Alerting
-```
-kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/tigera-eks-workshop/main/demo/50-alerts/globalnetworkset.changed.yaml
-```
-```
-kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/tigera-eks-workshop/main/demo/50-alerts/unsanctioned.dns.access.yaml
-```
-```
-kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/tigera-eks-workshop/main/demo/50-alerts/unsanctioned.lateral.access.yaml
-``` 
-## Compliance Reporting
-```   
-kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/tigera-eks-workshop/main/demo/40-compliance-reports/daily-cis-results.yaml
-```
-```  
-kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/tigera-eks-workshop/main/demo/40-compliance-reports/cluster-reports.yaml
-```  
   
+```
+kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/policies/test-app.yaml
+```
+  
+## Alerting
+  
+```
+kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/alerting/networksets.yaml
+```
+  
+```
+kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/alerting/dns-access.yaml
+```
+  
+```
+kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/alerting/lateral-access.yaml
+``` 
+  
+## Compliance Reporting
+  
+```   
+kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/reporting/cis-report.yaml
+```
+  
+```  
+kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/reporting/inventory.yaml
+```
+  
+``` 
+kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/reporting/network-access.yaml  
+```
+  
+Run the below .YAML manifest if you had configured audit logs for your EKS cluster:<br/>
+https://docs.tigera.io/compliance/compliance-reports/compliance-managed-cloud#enable-audit-logs-in-eks
+
+```
+kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/reporting/policy-audit.yaml  
+```
+
+## Securing EKS hosts:
+
+Automatically register your nodes as Host Endpoints (HEPS). To enable automatic host endpoints, edit the default KubeControllersConfiguration instance, and set spec.controllers.node.hostEndpoint.autoCreate to true:
+
+```
+kubectl patch kubecontrollersconfiguration default --patch='{"spec": {"controllers": {"node": {"hostEndpoint": {"autoCreate": "Enabled"}}}}}'
+```
+
+Add the label kubernetes-host to all nodes and their host endpoints:
+```
+kubectl label nodes --all kubernetes-host=  
+```
+This tutorial assumes that you already have a tier called 'aws-nodes' in Calico Cloud:  
+```
+kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/policies/node-tier.yaml
+```
+Once the tier is created, Build 3 policies for each scenario: 
+```
+kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/policies/etcd.yaml
+```
+```
+kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/policies/master.yaml
+```
+```
+kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/policies/worker.yaml
+```
+
+#### Label based on node purpose
+To select a specific set of host endpoints (and their corresponding Kubernetes nodes), use a policy selector that selects a label unique to that set of host endpoints. For example, if we want to add the label environment=dev to nodes named node1 and node2:
+
+```
+kubectl label node ip-10-0-1-165 environment=master
+kubectl label node ip-10-0-1-167 environment=worker
+kubectl label node ip-10-0-1-227 environment=etcd
+```
+
 ## Dynamic Packet Capture:
 
 Check that there are no packet captures in this directory  
@@ -243,36 +331,54 @@ tshark -r frontend-75875cb97c-2fkt2_enib222096b242.pcap -2 -R dns | grep microse
 tshark -r frontend-75875cb97c-2fkt2_enib222096b242.pcap -2 -R dns | grep microservice2
 ```  
 
-## Scaling-down the cluster
 
-<img width="689" alt="Screenshot 2021-09-03 at 10 15 38" src="https://user-images.githubusercontent.com/82048393/131981700-8be8d093-c3dd-4c07-9e0a-4bca363163c4.png">
+
+
+
+## Wireguard In-Transit Encryption:
+
+To begin, you will need a Kubernetes cluster with WireGuard installed on the host operating system.</br>
+https://www.tigera.io/blog/introducing-wireguard-encryption-with-calico/
+```
+sudo yum install kernel-devel-`uname -r` -y
+sudo yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm -y
+sudo curl -o /etc/yum.repos.d/jdoss-wireguard-epel-7.repo https://copr.fedorainfracloud.org/coprs/jdoss/wireguard/repo/epel-7/jdoss-wireguard-epel-7.repo
+sudo yum install wireguard-dkms wireguard-tools -y
+```
+Enable WireGuard encryption across all the nodes using the following command:
+```
+kubectl patch felixconfiguration default --type='merge' -p '{"spec":{"wireguardEnabled":true}}'
+```
+To verify that the nodes are configured for WireGuard encryption:
+```
+kubectl get node ip-192-168-30-158.eu-west-1.compute.internal -o yaml | grep Wireguard
+```
+Show how this has applied to traffic in-transit:
+```
+sudo wg show
+```
+
+## Scaling-down the cluster
   
 Scale deployment down to '0' replicas to avoid scaling conflicts:
 ```
 kubectl scale deployments/coredns --replicas=0 -n kube-system
 ```
-
-<img width="692" alt="Screenshot 2021-09-03 at 10 17 03" src="https://user-images.githubusercontent.com/82048393/131981870-f1246d0a-6017-4df4-a1ab-71e560b8c5ae.png">
-
-## Destroying your cluster
-  
 Find a Node Group associated with the cluster - tigera-workshop
 ```
-eksctl get nodegroup --cluster tigera-workshop
+eksctl get nodegroup --cluster aws-howdy-partner
 ```
 Scale the Node Group ID to 0 nodes (which should stop K8 activity)
 ```
-eksctl scale nodegroup --cluster tigera-workshop --name ng-8d471f34 --nodes 0
+eksctl scale nodegroup --cluster aws-howdy-partner --name ng-8087b677 --nodes 0
 ```
-When you're done using an Amazon EKS cluster, you should delete the resources associated with it so that you don't incur any unnecessary costs.<br/>
-https://docs.aws.amazon.com/eks/latest/userguide/delete-cluster.html<br/>
-<br/>
+
+## Miscellaneous commands:
+Check that your licensing was applied:
 ```
-kubectl get svc --all-namespaces
+kubectl get LicenseKeys.crd.projectcalico.org
 ```
+Delete all broken pods in namespace	
 ```
-kubectl delete svc <service-name>
-```
-```
-eksctl delete cluster --name tigera-workshop
+kubectl delete --all pods --namespace=tigera-elasticsearch
 ```
