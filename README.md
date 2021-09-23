@@ -18,6 +18,10 @@ First, create an Amazon EKS cluster without any nodes
 eksctl create cluster  --name tigera-workshop  --with-oidc  --without-nodegroup
 ```
 ## Make the cluster EU compatible
+Download the AWS VPC CNI yaml manifest
+```
+wget https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/v1.0/aws-k8s-cni.yaml
+```
 If necessary, replace region-code with Region the cluster is in:
 ```
 sed -i.bak -e 's/us-west-2/eu-west-1/' aws-k8s-cni.yaml
