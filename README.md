@@ -16,7 +16,7 @@ eksctl version
 ``` 
 First, create an Amazon EKS cluster without any nodes
 ```
-eksctl create cluster  --name tigera-workshop  --with-oidc  --without-nodegroup
+eksctl create cluster  --name nigel-eks-cluster  --with-oidc  --without-nodegroup
 ```
 
 ## Create a node group for the cluster
@@ -30,7 +30,7 @@ kubectl get pod -n kube-system -o wide
 ```
 Finally, add nodes to your EKS cluster
 ```
-eksctl create nodegroup --cluster tigera-workshop --node-type t3.xlarge --nodes=3 --nodes-min=0 --nodes-max=3 --max-pods-per-node 58
+eksctl create nodegroup --cluster nigel-eks-cluster --node-type t3.xlarge --nodes=3 --nodes-min=0 --nodes-max=3 --max-pods-per-node 58
 ```
 Check pod status again:  
 ```
@@ -44,7 +44,7 @@ curl https://installer.calicocloud.io/*****.*****-management_install.sh | bash
 ```
 Check for cluster security group of cluster:
 ```
-aws eks describe-cluster --name aws-howdy-partner --query cluster.resourcesVpcConfig.clusterSecurityGroupId
+aws eks describe-cluster --name nigel-eks-cluster --query cluster.resourcesVpcConfig.clusterSecurityGroupId
 ```
 If your cluster does not have applications, you can use the following storefront application:
 ```
@@ -364,13 +364,13 @@ Scale deployment down to '0' replicas to avoid scaling conflicts:
 ```
 kubectl scale deployments/coredns --replicas=0 -n kube-system
 ```
-Find a Node Group associated with the cluster - tigera-workshop
+Find a Node Group associated with the cluster - ```nigel-eks-cluster```
 ```
-eksctl get nodegroup --cluster aws-howdy-partner
+eksctl get nodegroup --cluster nigel-eks-cluster
 ```
 Scale the Node Group ID to 0 nodes (which should stop K8 activity)
 ```
-eksctl scale nodegroup --cluster aws-howdy-partner --name ng-8087b677 --nodes 0
+eksctl scale nodegroup --cluster nigel-eks-cluster --name ng-8087b677 --nodes 0
 ```
 
 ## Miscellaneous commands:
