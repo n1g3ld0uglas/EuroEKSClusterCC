@@ -1,5 +1,6 @@
-# Eurozone EKS Cluster Calico Cloud
-Eurozone EKS Cluster for Calico Cloud
+# EMEA Threat Defence Workshop - Kubernetes | Calico Cloud
+This repository was created for a Kubernetes security workshop on the 23rd of Septemeber 2021.
+
 ## Download EKSCTL
 Download and extract the latest release of eksctl with the following command
 ```
@@ -17,23 +18,7 @@ First, create an Amazon EKS cluster without any nodes
 ```
 eksctl create cluster  --name tigera-workshop  --with-oidc  --without-nodegroup
 ```
-## Make the cluster EU compatible
-Download the AWS VPC CNI yaml manifest
-```
-wget https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/v1.0/aws-k8s-cni.yaml
-```
-If necessary, replace region-code with Region the cluster is in:
-```
-sed -i.bak -e 's/us-west-2/eu-west-1/' aws-k8s-cni.yaml
-```
-If necessary, replace <account> with Account from the EKS addon
-```
-sed -i.bak -e 's/602401143452/602401143452/' aws-k8s-cni.yaml
-```
-Address for Region that your cluster is in:
-```
-kubectl apply -f aws-k8s-cni.yaml
-```
+
 ## Create a node group for the cluster
 Confirm regions are configured correctly:
 ```
@@ -47,14 +32,11 @@ Finally, add nodes to your EKS cluster
 ```
 eksctl create nodegroup --cluster tigera-workshop --node-type t3.xlarge --nodes=3 --nodes-min=0 --nodes-max=3 --max-pods-per-node 58
 ```
+Check pod status again:  
+```
+kubectl get pod -n kube-system -o wide
+```
 ## Configure Calico Cloud:
-If your cluster has an existing version of Calico installed, verify that Calico components are not managed by any kind of Kubernetes reconciler / Addon-manager - https://docs.calicocloud.io/install/system-requirements#general
-```
-kubectl get addonmanager.kubernetes.io/mode -n tigera-operator tigera-operator -o yaml | grep ' addonmanager.kubernetes.io/mode:'
-```
-```
-kubectl get addonmanager.kubernetes.io/mode -n kube-system calico-node -o yaml | grep ' addonmanager.kubernetes.io/mode:'
-```
 Get your Calico Cloud installation script from the Web UI - https://qq9psbdn-management.calicocloud.io/clusters/grid
 ```
 curl https://installer.calicocloud.io/*****.*****-management_install.sh | bash
