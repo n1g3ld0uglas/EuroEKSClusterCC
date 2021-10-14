@@ -439,7 +439,7 @@ spec:
           privileged: true
           allowPrivilegeEscalation: true
         env:
-          - name: CLUSTER_NAME
+          - name: nigel-eks-cluster
             value: "cluster"
           - name: ELASTIC_HOST
             value: "tigera-secure-es-gateway-http.tigera-elasticsearch.svc"
