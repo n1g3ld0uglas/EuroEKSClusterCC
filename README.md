@@ -1,4 +1,4 @@
-# EMEA Threat Defence Workshop - Kubernetes | Calico Cloud
+# Kubernetes Security Workshop | Calico Cloud
 This repository was created for a Kubernetes security workshop on the 23rd of Septemeber 2021.
 
 ## Download EKSCTL
