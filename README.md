@@ -116,13 +116,13 @@ kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-pa
 ```
 
 ## Anonymization Attacks:  
-Create the threat feed for EJR-VPN: 
+Create the threat feed for ```EJR-VPN```: 
 
 ``` 
 kubectl apply -f https://docs.tigera.io/manifests/threatdef/ejr-vpn.yaml
 ```
 
-Create the threat feed for Tor Bulk Exit Nodes: 
+Create the threat feed for ```Tor Bulk Exit``` Nodes: 
 
 ``` 
 kubectl apply -f https://docs.tigera.io/manifests/threatdef/tor-exit-feed.yaml
@@ -134,6 +134,20 @@ Additionally, feeds can be checked using following command:
 kubectl get globalthreatfeeds 
 ```
 
+As you can see from the below example, it's making a pull request from a dynamic feed and labelling it - so we have a static selector for the feed:
+```
+apiVersion: projectcalico.org/v3
+kind: GlobalThreatFeed
+metadata:
+  name: ejr-vpn
+spec:
+  pull:
+    http:
+      url: https://raw.githubusercontent.com/ejrv/VPNs/master/vpn-ipv4.txt
+  globalNetworkSet:
+    labels:
+      feed: ejr-vpn
+```
   
 ## Configuring Honeypods
 
