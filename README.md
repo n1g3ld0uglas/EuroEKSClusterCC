@@ -504,6 +504,25 @@ spec:
             path: /var/log/calico/anomaly_detection_jobs
 ``` 
 
+Automated the process (keep in mind the cluster name specified is - ``` nigel-eks-cluster``` ) 
+``` 
+kubectl apply -f https://raw.githubusercontent.com/n1g3ld0uglas/EuroEKSClusterCC/main/ad-jobs-deployment-managed.yaml
+``` 
+
+To get this real pod name use:
+``` 
+kubectl get pods -n tigera-intrusion-detection -l app=anomaly-detection
+``` 
+
+Use this command to read logs:
+``` 
+kubectl logs ad-jobs-deployment-86db6d5d9b-fmt5p -n tigera-intrusion-detection | grep INFO
+``` 
+
+If anomalies are detected, you see a line like this:
+``` 
+2021-10-14 14:06:13 : INFO : AlertClient: sent 5 alerts with anomalies.
+``` 
 
 ## Wireguard In-Transit Encryption:
 
