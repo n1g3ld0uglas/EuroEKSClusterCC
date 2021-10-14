@@ -524,6 +524,10 @@ If anomalies are detected, you see a line like this:
 2021-10-14 14:06:13 : INFO : AlertClient: sent 5 alerts with anomalies.
 ``` 
 
+![anomaly-detection-alert](https://user-images.githubusercontent.com/82048393/137357313-e29f6158-5cd9-4f3a-b68f-466331d85186.png)
+
+A description of the alert started with the ```anomaly_detection.job_id``` where ```job_id``` can be found on Description page
+
 ## Wireguard In-Transit Encryption:
 
 To begin, you will need a Kubernetes cluster with WireGuard installed on the host operating system.</br>
