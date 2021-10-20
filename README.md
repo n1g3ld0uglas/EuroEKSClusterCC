@@ -1,5 +1,5 @@
 # Kubernetes Security Workshop | Calico Cloud
-This repository was created for a Kubernetes security workshop on the 15th of October 2021.
+This repository was created for a Kubernetes security workshop on the 21st of October 2021.
 
 ## Download EKSCTL
 Download and extract the latest release of eksctl with the following command
