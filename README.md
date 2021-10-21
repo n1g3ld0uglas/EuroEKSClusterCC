@@ -283,9 +283,9 @@ kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-pa
 To select a specific set of host endpoints (and their corresponding Kubernetes nodes), use a policy selector that selects a label unique to that set of host endpoints. For example, if we want to add the label environment=dev to nodes named node1 and node2:
 
 ```
-kubectl label node ip-10-0-1-165 environment=master
-kubectl label node ip-10-0-1-167 environment=worker
-kubectl label node ip-10-0-1-227 environment=etcd
+kubectl label node ip-10-0-1-165 env=master
+kubectl label node ip-10-0-1-167 env=worker
+kubectl label node ip-10-0-1-227 env=etcd
 ```
 
 ## Dynamic Packet Capture:
@@ -572,5 +572,5 @@ kubectl get LicenseKeys.crd.projectcalico.org
 ```
 Delete all broken pods in namespace	
 ```
-kubectl delete --all pods --namespace=tigera-elasticsearch
+kubectl delete --all pods --namespace=tigera-intermal
 ```
