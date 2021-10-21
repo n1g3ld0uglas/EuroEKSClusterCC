@@ -551,17 +551,17 @@ Show how this has applied to traffic in-transit:
 sudo wg show
 ```
 
-## Cleanup Script (Remove unwanted policies)
+## Cleaner Script (Removes unwanted policies after workshop)
 ```
-wget https://raw.githubusercontent.com/n1g3ld0uglas/EuroEKSClusterCC/main/cleanup.sh
-```
-
-```
-chmod +x cleanup.sh
+wget https://raw.githubusercontent.com/n1g3ld0uglas/EuroEKSClusterCC/main/cleaner.sh
 ```
 
 ```
-./cleanup.sh
+chmod +x cleaner.sh
+```
+
+```
+./cleaner.sh
 ```
 
 
