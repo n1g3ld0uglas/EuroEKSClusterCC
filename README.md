@@ -291,15 +291,7 @@ kubectl label node ip-192-168-74-2.eu-west-1.compute.internal env=etcd
 Confirm the labels are now assigned:
 
 ```
-kubectl get nodes -A | grep etcd
-```
-
-```
-kubectl get nodes -A | grep master
-```
-
-```
-kubectl get nodes -A | grep worker
+kubectl get nodes --show-labels | grep etcd
 ```
 
 ## Dynamic Packet Capture:
