@@ -551,20 +551,15 @@ Show how this has applied to traffic in-transit:
 sudo wg show
 ```
 
-## Scaling-down the cluster
-  
-Scale deployment down to '0' replicas to avoid scaling conflicts:
+## Cleanup Script (Remove unwanted policies)
 ```
-kubectl scale deployments/coredns --replicas=0 -n kube-system
+wget https://raw.githubusercontent.com/n1g3ld0uglas/EuroEKSClusterCC/main/cleanup.sh
 ```
-Find a Node Group associated with the cluster - ```nigel-eks-cluster```
+
 ```
-eksctl get nodegroup --cluster nigel-eks-cluster
+./cleanup.sh
 ```
-Scale the Node Group ID to 0 nodes (which should stop K8 activity)
-```
-eksctl scale nodegroup --cluster nigel-eks-cluster --name ng-8087b677 --nodes 0
-```
+
 
 ## Miscellaneous commands:
 Check that your licensing was applied:
