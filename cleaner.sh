@@ -74,3 +74,9 @@ kubectl delete -f https://docs.tigera.io/manifests/threatdef/ejr-vpn.yaml
 sleep 2
 kubectl delete -f https://docs.tigera.io/manifests/threatdef/tor-exit-feed.yaml
 sleep 2
+
+# Cleanup leftover files in local directory
+rm cleaner.sh
+sleep 2
+rm *.pcap
+sleep 2
