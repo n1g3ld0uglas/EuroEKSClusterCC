@@ -557,6 +557,10 @@ wget https://raw.githubusercontent.com/n1g3ld0uglas/EuroEKSClusterCC/main/cleanu
 ```
 
 ```
+chmod +x cleanup.sh
+```
+
+```
 ./cleanup.sh
 ```
 
