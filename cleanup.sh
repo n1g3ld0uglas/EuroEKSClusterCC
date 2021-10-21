@@ -5,7 +5,6 @@ function remove_unwanted_policies(){
    kubectl patch felixconfiguration.p default -p '{"spec":{"flowLogsFlushInterval":"10s"}}'
    kubectl patch felixconfiguration.p default -p '{"spec":{"flowLogsFileAggregationKindForAllowed":1}}'
    kubectl patch felixconfiguration.p default -p '{"spec":{"flowLogsCollectTcpStats":true}}'
-   kubectl patch logcollector.operator.tigera.io tigera-secure --type merge -p '{"spec":{"collectProcessPath":"Enabled"}}'
 }
 
 function remove_storefront_application() {
@@ -14,36 +13,38 @@ function remove_storefront_application() {
     #echo "kubectl get pods -n storefront -o yaml"
 }
 
-# Setup logging in elasticsearch
+# Remove zone based architecture policies
 remove_unwanted_policies
 
-kubectl apply -f stage0
+kubectl delete -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/policies/dmz.yaml
 sleep 2
-kubectl apply -f stage1
+kubectl delete -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/policies/trusted.yaml
 sleep 2
-
-#kubectl apply -f stage2/default-deny-egress-storefront.yaml
-kubectl apply -f stage2/feodo-block-policy.yaml
-kubectl apply -f stage2/FirewallZonesPolicies.yaml
-kubectl apply -f stage2/restricted-resource-allow-policy.yaml
-
-# Define the compliance reports
-kubectl apply -f stage2/compliance-reports.yaml --validate=false
+kubectl delete -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/policies/restricted.yaml
 sleep 2
 
-# Get the compliance reporter token and use our template to generate the reporter pod yamls
-rm stage2/compliance-reporter-pods.yaml
-COMPLIANCE_REPORTER_TOKEN=$(kubectl get secrets -n tigera-compliance | grep tigera-compliance-reporter-token* | awk '{print $1;}')
-sed -e "s?<COMPLIANCE_REPORTER_TOKEN>?$COMPLIANCE_REPORTER_TOKEN?g" stage2/compliance-reporter-pods-template.yaml > stage2/compliance-reporter-pods.yaml
-kubectl apply -f stage2/compliance-reporter-pods.yaml
 
-# Create some "dummy" host endpoints
-kubectl apply -f stage2/host-endpoints.yaml
+# Delete the compliance reports
+kubectl delete -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/reporting/daily-cis-report.yaml --validate=false
+sleep 2
+kubectl delete -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/reporting/half-hour-inventory-report.yaml
+ --validate=false
+sleep 2
+kubectl delete -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/reporting/half-hour-network-access.yaml  
+ --validate=false
+sleep 2
 
-# Create the hipstershop namespace and setup L7 logs with Envoy
-kubectl apply -f hipstershop/hipstershop-ns.yaml
-kubectl apply -f hipstershop/kubernetes-manifests.yaml -n hipstershop
-./setup-l7-hipstershop.sh
+
+# Delete the Rogue application
+kubectl delete -f https://raw.githubusercontent.com/GoogleCloudPlatform/microservices-demo/master/release/kubernetes-manifests.yaml
+sleep 2
+kubectl get pods -n default
+
+# Remove the Honeypod configs
+kubectl delete -f kubectl apply -f https://docs.tigera.io/manifests/threatdef/honeypod/common.yaml
+kubectl delete -f https://docs.tigera.io/manifests/threatdef/honeypod/vuln-svc.yaml 
+sleep 2
+kubectl get pods -n tigera-internal -o wide
 
 # Remove GlobalThreatFeeds for Anonymization attacks
 #kubectl delete -f https://docs.tigera.io/manifests/threatdef/ejr-vpn.yaml
