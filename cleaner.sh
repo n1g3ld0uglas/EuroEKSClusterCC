@@ -14,6 +14,7 @@ sleep 2
 kubectl delete -f https://installer.calicocloud.io/storefront-demo.yaml
 sleep 2
 
+
 # Delete host endpoint tier and policies
 kubectl delete -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/policies/etcd.yaml
 sleep 2
@@ -23,6 +24,20 @@ kubectl delete -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-p
 sleep 2
 kubectl delete -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/policies/node-tier.yaml
 sleep 2
+
+
+# Remove all tigera-security configurations
+kubectl delete -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/policies/allow-kubedns.yaml
+sleep 2
+kubectl delete -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/policies/quarantine.yaml
+sleep 2
+kubectl delete -f https://installer.calicocloud.io/rogue-demo.yaml -n storefront
+sleep 2
+kubectl delete -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/threatfeed/block-feodo.yaml
+sleep 2
+kubectl delete -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/threatfeed/feodo-tracker.yaml
+sleep 2
+
 
 # Remove all alerting configurations
 kubectl delete -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/alerting/networksets.yaml
@@ -46,11 +61,13 @@ sleep 2
 kubectl delete -f https://raw.githubusercontent.com/GoogleCloudPlatform/microservices-demo/master/release/kubernetes-manifests.yaml
 sleep 2
 
+
 # Remove the Honeypod configs
 kubectl delete -f kubectl apply -f https://docs.tigera.io/manifests/threatdef/honeypod/common.yaml
 sleep 2
 kubectl delete -f https://docs.tigera.io/manifests/threatdef/honeypod/vuln-svc.yaml 
 sleep 2
+
 
 # Remove GlobalThreatFeeds for Anonymization attacks
 kubectl delete -f https://docs.tigera.io/manifests/threatdef/ejr-vpn.yaml
