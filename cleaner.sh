@@ -60,6 +60,8 @@ sleep 2
 # Delete the Rogue application
 kubectl delete -f https://raw.githubusercontent.com/GoogleCloudPlatform/microservices-demo/master/release/kubernetes-manifests.yaml
 sleep 2
+kubectl delete -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/policies/product.yaml
+sleep 2
 
 
 # Remove the Honeypod configs
