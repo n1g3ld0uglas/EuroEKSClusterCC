@@ -38,6 +38,13 @@ sleep 2
 kubectl delete -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/threatfeed/feodo-tracker.yaml
 sleep 2
 
+# Remove Boutique stuff
+kubectl delete -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/policies/boutique-policies.yaml
+sleep 2
+kubectl delete -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/policies/test-app.yaml
+sleep 2
+kubectl delete -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/policies/default-deny.yaml
+sleep 2
 
 # Remove all alerting configurations
 kubectl delete -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/alerting/networksets.yaml
@@ -62,7 +69,12 @@ kubectl delete -f https://raw.githubusercontent.com/GoogleCloudPlatform/microser
 sleep 2
 kubectl delete -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/policies/product.yaml
 sleep 2
-
+kubectl delete -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/workloads/test.yaml
+sleep 2
+kubectl delete -f https://docs.tigera.io/manifests/threatdef/honeypod/vuln-svc.yaml 
+sleep 2
+kubectl apply -f https://docs.tigera.io/manifests/threatdef/honeypod/common.yaml
+sleep 2
 
 # Remove the Honeypod configs
 kubectl delete -f kubectl apply -f https://docs.tigera.io/manifests/threatdef/honeypod/common.yaml
