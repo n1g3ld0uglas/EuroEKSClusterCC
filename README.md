@@ -283,9 +283,23 @@ kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-pa
 To select a specific set of host endpoints (and their corresponding Kubernetes nodes), use a policy selector that selects a label unique to that set of host endpoints. For example, if we want to add the label environment=dev to nodes named node1 and node2:
 
 ```
-kubectl label node ip-10-0-1-165 env=master
-kubectl label node ip-10-0-1-167 env=worker
-kubectl label node ip-10-0-1-227 env=etcd
+kubectl label node ip-192-168-22-46.eu-west-1.compute.internal env=master
+kubectl label node ip-192-168-62-23.eu-west-1.compute.internal env=worker
+kubectl label node ip-192-168-74-2.eu-west-1.compute.internal env=etcd
+```
+
+Confirm the labels are now assigned:
+
+```
+kubectl get nodes -A | grep etcd
+```
+
+```
+kubectl get nodes -A | grep master
+```
+
+```
+kubectl get nodes -A | grep worker
 ```
 
 ## Dynamic Packet Capture:
