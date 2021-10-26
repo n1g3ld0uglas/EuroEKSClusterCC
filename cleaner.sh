@@ -89,6 +89,9 @@ sleep 2
 kubectl delete -f https://docs.tigera.io/manifests/threatdef/tor-exit-feed.yaml
 sleep 2
 
+# Disable Host Endpoints Config
+kubectl patch kubecontrollersconfiguration default --patch='{"spec": {"controllers": {"node": {"hostEndpoint": {"autoCreate": "Disabled"}}}}}'
+
 # Cleanup leftover files in local directory
 rm cleaner.sh
 sleep 2
