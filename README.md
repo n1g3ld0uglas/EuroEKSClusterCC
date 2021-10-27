@@ -571,12 +571,16 @@ chmod +x cleaner.sh
 ```
 
 
-## Miscellaneous commands:
-Check that your licensing was applied:
+## Scale down your EKS Cluster
+Confirm the cluster name
 ```
-kubectl get LicenseKeys.crd.projectcalico.org
+eksctl get cluster
 ```
-Delete all broken pods in namespace	
+Find the Node Group ID associated with the cluster	
 ```
-kubectl delete --all pods --namespace=tigera-intermal
+eksctl get nodegroup --cluster nigel-eks-cluster2
+```
+Scale the Node Group down to 0 nodes to reduce AWS costs
+```
+eksctl scale nodegroup --cluster nigel-eks-cluster2 --name ng-f22ea39f --nodes 0
 ```
