@@ -97,3 +97,10 @@ rm cleaner.sh
 sleep 2
 rm *.pcap
 sleep 2
+
+# Cleanup pcap's and the kubectl-calico utility
+rm *.pcap
+sleep 2
+ls *.pcap
+sleep 2
+rm kubectl-calico
