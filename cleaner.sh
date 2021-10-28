@@ -104,3 +104,5 @@ sleep 2
 ls *.pcap
 sleep 2
 rm kubectl-calico
+sleep 2
+rm ad-jobs-deployment-managed.yaml
