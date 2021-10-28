@@ -360,7 +360,7 @@ curl https://docs.tigera.io/manifests/threatdef/ad-jobs-deployment-managed.yaml 
 If it is a managed cluster, you have to set up the CLUSTER_NAME environment variable. </br>
 Automated the process (keep in mind the cluster name specified is - ``` nigel-eks-cluster``` 
 ``` 
-kubectl apply -f https://raw.githubusercontent.com/n1g3ld0uglas/EuroEKSClusterCC/main/ad-jobs-deployment-managed.yaml
+kubectl apply -f ad-jobs-deployment-managed.yaml
 ``` 
 
 To get this real pod name use:
