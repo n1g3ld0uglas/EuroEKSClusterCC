@@ -91,11 +91,6 @@ sleep 2
 
 # Disable Host Endpoints Config
 kubectl patch kubecontrollersconfiguration default --patch='{"spec": {"controllers": {"node": {"hostEndpoint": {"autoCreate": "Disabled"}}}}}'
-
-# Cleanup leftover files in local directory
-rm cleaner.sh
-sleep 2
-rm *.pcap
 sleep 2
 
 # Cleanup pcap's and the kubectl-calico utility
@@ -106,3 +101,11 @@ sleep 2
 rm kubectl-calico
 sleep 2
 rm ad-jobs-deployment-managed.yaml
+sleep 2
+
+
+
+
+
+# Cleanup leftover files in local directory
+rm cleaner.sh
