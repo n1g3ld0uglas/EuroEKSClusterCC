@@ -68,6 +68,11 @@ Create the Restricted Policy:
 kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/policies/restricted.yaml
 ```
 
+#### Confirm all policies are running:
+```
+kubectl get networkpolicies.p -n storefront -l projectcalico.org/tier=product
+```
+
 ## Allow Kube-DNS Traffic: 
 We need to create the following policy within the ```tigera-security``` tier <br/>
 Determine a DNS provider of your cluster (mine is 'coredns' by default)
