@@ -362,6 +362,16 @@ If it is a managed cluster, you have to set up the CLUSTER_NAME environment vari
 curl https://docs.tigera.io/manifests/threatdef/ad-jobs-deployment-managed.yaml -O
 ``` 
 
+Grab your pull secret from the ```tigera-system``` namespace:
+``` 
+kubectl get secret tigera-pull-secret -n tigera-system -o yaml > secret.yaml
+``` 
+
+Swap the name of your cluster into the managed deployment manifest:
+``` 
+sed -i 's/CLUSTER_NAME/nigel-eks-cluster/g' ad-jobs-deployment-managed.yaml
+``` 
+
 If it is a managed cluster, you have to set up the CLUSTER_NAME environment variable. </br>
 Automated the process (keep in mind the cluster name specified is - ``` nigel-eks-cluster``` 
 ``` 
