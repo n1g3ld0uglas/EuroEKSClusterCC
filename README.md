@@ -136,8 +136,10 @@ spec:
     labels:
       feed: ejr-vpn
 ```
+
+You can apply the above manifest by running the below command:
 ``` 
-kubectl apply -f https://docs.tigera.io/manifests/threatdef/ejr-vpn.yaml
+kubectl apply -f https://raw.githubusercontent.com/n1g3ld0uglas/EuroEKSClusterCC/main/ipthreatfeed.yaml
 ```
 
 Create the threat feed for ```Tor Bulk Exit``` Nodes: 
