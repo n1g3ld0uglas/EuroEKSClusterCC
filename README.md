@@ -159,14 +159,14 @@ As you can see from the below example, it's making a pull request from a dynamic
 apiVersion: projectcalico.org/v3
 kind: GlobalThreatFeed
 metadata:
-  name: ejr-vpn
+  name: vpn-ejr
 spec:
   pull:
     http:
-      url: https://raw.githubusercontent.com/ejrv/VPNs/master/vpn-ipv4.txt
+      url: https://raw.githubusercontent.com/n1g3ld0uglas/EuroEKSClusterCC/main/ejrfeed.txt
   globalNetworkSet:
     labels:
-      feed: ejr-vpn
+      threatfeed: vpn-ejr
 ```
   
 ## Configuring Honeypods
