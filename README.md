@@ -122,22 +122,6 @@ kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-pa
 
 ## Anonymization Attacks:  
 Create the threat feed for ```EJR-VPN```: 
-
-```
-apiVersion: projectcalico.org/v3
-kind: GlobalThreatFeed
-metadata:
-  name: malicious-ipfeed
-spec:
-  pull:
-    http:
-      url: https://raw.githubusercontent.com/ejrv/VPNs/master/vpn-ipv4.txt
-  globalNetworkSet:
-    labels:
-      feed: ejr-vpn
-```
-
-You can apply the above manifest by running the below command:
 ``` 
 kubectl apply -f https://raw.githubusercontent.com/n1g3ld0uglas/EuroEKSClusterCC/main/ipthreatfeed.yaml
 ```
