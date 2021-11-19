@@ -248,7 +248,12 @@ kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-pa
 ``` 
 kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/reporting/half-hour-network-access.yaml  
 ```
-  
+
+Confirm your three reports are running as expected:
+```
+kubectl get globalreports
+```
+
 Run the below .YAML manifest if you had configured audit logs for your EKS cluster:<br/>
 https://docs.tigera.io/compliance/compliance-reports/compliance-managed-cloud#enable-audit-logs-in-eks
 
