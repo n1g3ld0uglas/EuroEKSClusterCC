@@ -103,8 +103,11 @@ sleep 2
 rm ad-jobs-deployment-managed.yaml
 sleep 2
 
-
-
+# Cleanup compliance reports if still present on system
+kubectl get globalreports -A
+kubectl delete globalreport cluster-inventory
+kubectl delete globalreport cluster-network-access
+kubectl delete globalreport hourly-cis-results
 
 
 # Cleanup leftover files in local directory
