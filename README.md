@@ -1,5 +1,5 @@
 # Kubernetes Security Workshop | Calico Cloud
-This repository was created for a Kubernetes security workshop on the 21st of October 2021.
+This repository was created for a Kubernetes security workshop on the 2nd of December 2021.
 
 ## Download EKSCTL
 Download and extract the latest release of eksctl with the following command
@@ -249,17 +249,42 @@ kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-pa
 kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/reporting/half-hour-network-access.yaml  
 ```
 
+![compliance-reporting](https://user-images.githubusercontent.com/82048393/144321272-d6303cde-18b3-434a-b2ff-d45c6d9ccece.png)
+
+
 Confirm your three reports are running as expected:
 ```
 kubectl get globalreports
 ```
 
-Run the below .YAML manifest if you had configured audit logs for your EKS cluster:<br/>
-https://docs.tigera.io/compliance/compliance-reports/compliance-managed-cloud#enable-audit-logs-in-eks
+Ensure that the compliance-benchmarker is running, and that the cis-benchmark report type is installed:
+```
+kubectl get -n tigera-compliance daemonset compliance-benchmarker
+kubectl get globalreporttype cis-benchmark
+```
 
+
+In the following example, we use a GlobalReport with CIS benchmark fields to schedule and filter results.
 ```
-kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/reporting/half-hour-policy-audit.yaml  
+apiVersion: projectcalico.org/v3
+kind: GlobalReport
+metadata:
+  name: daily-cis-results
+  labels:
+    deployment: production
+spec:
+  reportType: cis-benchmark
+  schedule: 0 0 * * *
+  cis:
+    highThreshold: 100
+    medThreshold: 50
+    includeUnscoredTests: true
+    numFailedTests: 5
+    resultsFilters:
+    - benchmarkSelection: { kubernetesVersion: "1.13" }
+      exclude: ["1.1.4", "1.2.5"]
 ```
+The report is scheduled to run at midnight of the next day (in UTC), and the benchmark items 1.1.4 and 1.2.5 will be omitted from the results.
 
 ## Securing EKS hosts:
 
