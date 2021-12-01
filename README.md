@@ -359,44 +359,45 @@ tshark -r frontend-75875cb97c-2fkt2_enib222096b242.pcap -2 -R dns | grep microse
 
 #### Additional was of configuring packet capture jobs:
 
-In the following example, we select all workload endpoints in ``` sample```  namespace.
+In the following example, we select all workload endpoints in ```storefront```  namespace.
 ```  
 apiVersion: projectcalico.org/v3
 kind: PacketCapture
 metadata:
   name: sample-capture-all
-  namespace: sample
+  namespace: storefront
 spec:
   selector: all()
 ```  
 
-In the following example, we select all workload endpoints in ```sample``` namespace and ```only TCP``` traffic.
+In the following example, we select all workload endpoints in ```storefront``` namespace and ```Only TCP``` traffic.
 
 ```
 apiVersion: projectcalico.org/v3
 kind: PacketCapture
 metadata:
-  name: sample-capture-all
-  namespace: sample
+  name: storefront-capture-all-tcp
+  namespace: storefront
 spec:
   selector: all()
   filters:
     - protocol: TCP
 ```
 
-You can schedule a PacketCapture to start and/or stop at a certain time. Start and end time are defined using RFC3339 format.
+You can schedule a PacketCapture to start and/or stop at a certain time. <br/>
+Start and end time are defined using ```RFC3339 format```.
 ```
 apiVersion: projectcalico.org/v3
 kind: PacketCapture
 metadata:
-  name: sample-capture-all
-  namespace: sample
+  name: sample-capture-all-morning
+  namespace: storefront
 spec:
   selector: all()
-  startTime: "2021-09-08T00:30:00Z"
-  endTime: "2021-09-08T00:40:00Z"
+  startTime: "2021-12-02T11:05:00Z"
+  endTime: "2021-12-02T11:25:00Z"
 ```
-In the above example, we schedule traffic capture for 10 minutes between 00:30 UTC and 00:40 UTC for all workload endpoints in sample namespace.
+In the above example, we schedule traffic capture for 15 minutes between 11:05 GMT and 11:25 GMT for all workload endpoints in ```storefront``` namespace.
 
 ## Anomaly Detection:
 
