@@ -357,6 +357,47 @@ tshark -r frontend-75875cb97c-2fkt2_enib222096b242.pcap -2 -R dns | grep microse
 tshark -r frontend-75875cb97c-2fkt2_enib222096b242.pcap -2 -R dns | grep microservice2
 ```  
 
+#### Additional was of configuring packet capture jobs:
+
+In the following example, we select all workload endpoints in ``` sample```  namespace.
+```  
+apiVersion: projectcalico.org/v3
+kind: PacketCapture
+metadata:
+  name: sample-capture-all
+  namespace: sample
+spec:
+  selector: all()
+```  
+
+In the following example, we select all workload endpoints in ```sample``` namespace and ```only TCP``` traffic.
+
+```
+apiVersion: projectcalico.org/v3
+kind: PacketCapture
+metadata:
+  name: sample-capture-all
+  namespace: sample
+spec:
+  selector: all()
+  filters:
+    - protocol: TCP
+```
+
+You can schedule a PacketCapture to start and/or stop at a certain time. Start and end time are defined using RFC3339 format.
+```
+apiVersion: projectcalico.org/v3
+kind: PacketCapture
+metadata:
+  name: sample-capture-all
+  namespace: sample
+spec:
+  selector: all()
+  startTime: "2021-09-08T00:30:00Z"
+  endTime: "2021-09-08T00:40:00Z"
+```
+In the above example, we schedule traffic capture for 10 minutes between 00:30 UTC and 00:40 UTC for all workload endpoints in sample namespace.
+
 ## Anomaly Detection:
 
 For the managed cluster (like Calico Cloud):
