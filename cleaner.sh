@@ -88,6 +88,7 @@ kubectl delete -f https://docs.tigera.io/manifests/threatdef/ejr-vpn.yaml
 sleep 2
 kubectl delete -f https://docs.tigera.io/manifests/threatdef/tor-exit-feed.yaml
 sleep 2
+kubectl delete globalalert honeypod.network.ssh
 
 # Disable Host Endpoints Config
 kubectl patch kubecontrollersconfiguration default --patch='{"spec": {"controllers": {"node": {"hostEndpoint": {"autoCreate": "Disabled"}}}}}'
