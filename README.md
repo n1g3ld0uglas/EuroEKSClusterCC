@@ -50,6 +50,10 @@ If your cluster does not have applications, you can use the following storefront
 ```
 kubectl apply -f https://installer.calicocloud.io/storefront-demo.yaml
 ```
+
+<img width="731" alt="Screenshot 2021-12-02 at 09 31 00" src="https://user-images.githubusercontent.com/82048393/144395142-da473fc4-db81-4ebe-97f2-3fea17f4b2c0.png">
+
+
 Create the Product Tier:
 ```
 kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/policies/product.yaml
