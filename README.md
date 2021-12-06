@@ -125,9 +125,9 @@ kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-pa
 ```
 
 ## Anonymization Attacks:  
-Create the threat feed for ```EJR-VPN```: 
+Create the threat feed for ```KNOWN-MALWARE``` which we can then block with network policy: 
 ``` 
-kubectl apply -f https://raw.githubusercontent.com/n1g3ld0uglas/EuroEKSClusterCC/main/ipthreatfeed.yaml
+kubectl apply -f https://raw.githubusercontent.com/n1g3ld0uglas/EuroEKSClusterCC/main/malware-ipfeed.yaml
 ```
 
 Create the threat feed for ```Tor Bulk Exit``` Nodes: 
