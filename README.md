@@ -1,5 +1,6 @@
 # Kubernetes Security Workshop | Calico Cloud
-This repository was created for a Kubernetes security workshop on the 2nd of December 2021.
+This repository was created for Kubernetes security workshops <br/>
+NB: None of the scripts provided in this repo are directly supported by Tigera
 
 ## Download EKSCTL
 Download and extract the latest release of eksctl with the following command
