@@ -248,15 +248,19 @@ kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-pa
 ``` 
   
 ## Compliance Reporting
-  
+
+Generate a ``` CIS Benchmark```  report: <br/>
+https://docs.tigera.io/v3.11/compliance/overview
 ```   
 kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/reporting/daily-cis-report.yaml
 ```
-  
+
+Generate an ```Inventory```  report
 ```  
 kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/reporting/half-hour-inventory-report.yaml
 ```
-  
+
+Generate a ```Network Access```  report:
 ``` 
 kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/reporting/half-hour-network-access.yaml  
 ```
@@ -296,37 +300,41 @@ spec:
     - benchmarkSelection: { kubernetesVersion: "1.13" }
       exclude: ["1.1.4", "1.2.5"]
 ```
-The report is scheduled to run at midnight of the next day (in UTC), and the benchmark items 1.1.4 and 1.2.5 will be omitted from the results.
+The report is scheduled to run at midnight of the next day (in UTC), and the benchmark items ```1.1.4```  and  ```1.2.5``` will be omitted from the results.
 
 ## Securing EKS hosts:
 
-Automatically register your nodes as Host Endpoints (HEPS). To enable automatic host endpoints, edit the default KubeControllersConfiguration instance, and set spec.controllers.node.hostEndpoint.autoCreate to true:
+Automatically register your nodes as Host Endpoints (HEPS). To enable automatic host endpoints, edit the default KubeControllersConfiguration instance, and set ``` spec.controllers.node.hostEndpoint.autoCreate```  to ```true``` for those ```HostEndpoints``` :
 
 ```
 kubectl patch kubecontrollersconfiguration default --patch='{"spec": {"controllers": {"node": {"hostEndpoint": {"autoCreate": "Enabled"}}}}}'
 ```
 
-Add the label kubernetes-host to all nodes and their host endpoints:
+Add the label ```kubernetes-host``` to all nodes and their host endpoints:
 ```
 kubectl label nodes --all kubernetes-host=  
 ```
-This tutorial assumes that you already have a tier called 'aws-nodes' in Calico Cloud:  
+This tutorial assumes that you already have a tier called '```aws-nodes```' in Calico Cloud:  
 ```
 kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/policies/node-tier.yaml
 ```
-Once the tier is created, Build 3 policies for each scenario: 
+Once the tier is created, Build 3 policies for each scenario: <br/>
+<br/>
+ETCD Host:
 ```
 kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/policies/etcd.yaml
 ```
+Master Node:
 ```
 kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/policies/master.yaml
 ```
+Worker Node:
 ```
 kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/policies/worker.yaml
 ```
 
 #### Label based on node purpose
-To select a specific set of host endpoints (and their corresponding Kubernetes nodes), use a policy selector that selects a label unique to that set of host endpoints. For example, if we want to add the label environment=dev to nodes named node1 and node2:
+To select a specific set of host endpoints (and their corresponding Kubernetes nodes), use a policy selector that selects a label unique to that set of host endpoints. For example, if we want to add the label ```environment=dev``` to nodes named node1 and node2:
 
 ```
 kubectl label node ip-192-168-22-46.eu-west-1.compute.internal env=master
@@ -346,7 +354,7 @@ Check that there are no packet captures in this directory
 ```
 ls *pcap
 ```
-A Packet Capture resource (PacketCapture) represents captured live traffic for debugging microservices and application interaction inside a Kubernetes cluster.</br>
+A Packet Capture resource (```PacketCapture```) represents captured live traffic for debugging microservices and application interaction inside a Kubernetes cluster.</br>
 https://docs.tigera.io/reference/calicoctl/captured-packets  
 ```
 kubectl apply -f https://raw.githubusercontent.com/tigera-solutions/aws-howdy-parter-calico-cloud/main/workloads/packet-capture.yaml
