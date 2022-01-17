@@ -605,3 +605,8 @@ Scale the Node Group down to 0 nodes to reduce AWS costs
 ```
 eksctl scale nodegroup --cluster nigel-eks-cluster2 --name ng-f22ea39f --nodes 0
 ```
+
+Alternatively, delete the cluster altogether
+```
+eksctl delete cluster --name nigel-eks-cluster
+```
