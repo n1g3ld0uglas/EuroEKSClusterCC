@@ -599,14 +599,14 @@ eksctl get cluster
 ```
 Find the Node Group ID associated with the cluster	
 ```
-eksctl get nodegroup --cluster nigel-eks-cluster2
+eksctl get nodegroup --cluster nigel-eks-cluster
 ```
 Scale the Node Group down to 0 nodes to reduce AWS costs
 ```
-eksctl scale nodegroup --cluster nigel-eks-cluster2 --name ng-f22ea39f --nodes 0
+eksctl scale nodegroup --cluster nigel-eks-cluster --name ng-3b6f6920 --nodes 0
 ```
 
 Alternatively, delete the cluster altogether
 ```
-eksctl delete cluster --name nigel-eks-cluster2
+eksctl delete cluster --name nigel-eks-cluster
 ```
