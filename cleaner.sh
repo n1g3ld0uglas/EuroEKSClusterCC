@@ -110,6 +110,9 @@ kubectl delete globalreport cluster-inventory
 kubectl delete globalreport cluster-network-access
 kubectl delete globalreport hourly-cis-results
 
+# Remove WireGuard Configurations
+kubectl delete -f https://raw.githubusercontent.com/n1g3ld0uglas/EuroAKSWorkshopCC/main/wireguard-metrics.yaml
+kubectl patch felixconfiguration default --type='merge' -p '{"spec":{"wireguardEnabled":false}}'
 
 # Cleanup leftover files in local directory
 rm cleaner.sh
