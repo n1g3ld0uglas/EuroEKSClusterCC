@@ -46,6 +46,13 @@ Check pod status again:
 ```
 kubectl get pod -n kube-system -o wide
 ```
+Confirm the nodes are running with the supported ```OS Image```:
+```
+kubectl get nodes -o wide
+```
+
+![Screenshot 2022-02-28 at 09 56 38](https://user-images.githubusercontent.com/82048393/155963070-3cf4568e-a699-44aa-a35d-7d2073fd526d.png)
+
 
 ## Configure Calico Cloud:
 Get your Calico Cloud installation script from the Web UI - https://qq9psbdn-management.calicocloud.io/clusters/grid
