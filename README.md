@@ -24,6 +24,11 @@ First, create an Amazon EKS cluster without any nodes
 eksctl create cluster  --name nigel-eks-cluster  --with-oidc  --without-nodegroup
 ```
 
+This entire process can take up to 15 minutes to build via CloudFormation scripts:
+
+![Screenshot 2022-02-28 at 09 48 57](https://user-images.githubusercontent.com/82048393/155961986-bf1b9e9d-ae53-4703-855e-5a176b7a87da.png)
+
+
 ## Create a node group for the cluster
 Confirm regions are configured correctly:
 ```
