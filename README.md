@@ -569,10 +569,25 @@ sudo yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noa
 sudo curl -o /etc/yum.repos.d/jdoss-wireguard-epel-7.repo https://copr.fedorainfracloud.org/coprs/jdoss/wireguard/repo/epel-7/jdoss-wireguard-epel-7.repo
 sudo yum install wireguard-dkms wireguard-tools -y
 ```
-Enable WireGuard encryption across all the nodes using the following command:
+Enable WireGuard encryption across all the nodes using the following command.
 ```
 kubectl patch felixconfiguration default --type='merge' -p '{"spec":{"wireguardEnabled":true}}'
 ```
+<br/>
+<br/>
+
+Additionally, you may optionally enable host-to-host encryption mode for WireGuard using the following command
+```
+kubectl patch felixconfiguration default --type='merge' -p '{"spec": {"wireguardHostEncryptionEnabled": true}}'
+```
+
+```wireguardHostEncryptionEnabled``` is an experimental flag that extends WireGuard encryption to host-network IP addresses. <br/>
+It is currently only supported on managed clusters deployed on EKS and AKS, where WireGuard cannot be enabled on the cluster’s control-plane node. <br/>
+Enabling this flag while WireGuard is enabled on the control-plane node can lead to a broken cluster, and neworking deadlock. <br/>
+
+<br/>
+<br/>
+
 To verify that the nodes are configured for WireGuard encryption:
 ```
 kubectl get node ip-192-168-30-158.eu-west-1.compute.internal -o yaml | grep Wireguard
