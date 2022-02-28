@@ -1,4 +1,4 @@
-# Kubernetes Security Workshop | Calico Cloud (EKS)
+ge# Kubernetes Security Workshop | Calico Cloud (EKS)
 This repository was created for Kubernetes security workshops <br/>
 NB: None of the scripts provided in this repo are directly supported by Tigera
 
@@ -74,6 +74,14 @@ aws eks describe-cluster --name nigel-eks-cluster --query cluster.resourcesVpcCo
 If your cluster does not have applications, you can use the following storefront application:
 ```
 kubectl apply -f https://installer.calicocloud.io/storefront-demo.yaml
+```
+
+![Screenshot 2022-02-28 at 10 32 25](https://user-images.githubusercontent.com/82048393/155968019-1c51bb2a-ec6c-45b2-927f-950fbbff26a5.png)
+
+Confirm that all pods are created and assigned a unique IP address:
+
+```
+kubectl get pods -n storefront -o wide
 ```
 
 <img width="731" alt="Screenshot 2021-12-02 at 09 31 00" src="https://user-images.githubusercontent.com/82048393/144395142-da473fc4-db81-4ebe-97f2-3fea17f4b2c0.png">
