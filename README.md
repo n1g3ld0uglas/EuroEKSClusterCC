@@ -55,10 +55,18 @@ kubectl get nodes -o wide
 
 
 ## Configure Calico Cloud:
-Get your Calico Cloud installation script from the Web UI - https://qq9psbdn-management.calicocloud.io/clusters/grid
+Get your Calico Cloud installation script from the Web UI. <br/>
+You can set a unique name for the cluster via the ```CLUSTER_PREFIX``` injection:
 ```
-curl https://installer.calicocloud.io/*****.*****-management_install.sh | bash
+CLUSTER_PREFIX='rancher-desktop-mac'
+curl https://installer.calicocloud.io/******_*****-management_install.sh | sed -e "s/CLUSTER_NAME=.*$/CLUSTER_NAME=${CLUSTER_PREFIX}/1" | bash
 ```
+
+![Screenshot 2022-02-28 at 10 05 55](https://user-images.githubusercontent.com/82048393/155964292-4d4ff747-c682-45f9-8d7d-c27f129bfd8a.png)
+
+
+
+
 Check for cluster security group of cluster:
 ```
 aws eks describe-cluster --name nigel-eks-cluster --query cluster.resourcesVpcConfig.clusterSecurityGroupId
