@@ -14,7 +14,11 @@ sudo mv /tmp/eksctl /usr/local/bin
 Test that your installation was successful with the following command
 ```
 eksctl version
-``` 
+```
+Check that context is not already set to a cluster that already exists:
+```
+kubectl config get-contexts
+```
 First, create an Amazon EKS cluster without any nodes
 ```
 eksctl create cluster  --name nigel-eks-cluster  --with-oidc  --without-nodegroup
