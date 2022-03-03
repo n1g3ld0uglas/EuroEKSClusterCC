@@ -1,4 +1,4 @@
-ge# Kubernetes Security Workshop | Calico Cloud (EKS)
+# Kubernetes Security Workshop | Calico Cloud (EKS)
 This repository was created for Kubernetes security workshops <br/>
 NB: None of the scripts provided in this repo are directly supported by Tigera
 
