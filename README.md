@@ -541,6 +541,28 @@ spec:
   selector: zone == "dmz"
 ```
 
+### Malware Detection
+Detect the presence of malware running in cloud-native applications and get alerts when malicious programs are running in your cluster.
+
+#### Enable on Nodes
+Malware detection is disabled by default. <br/>
+The DaemonSet has a nodeSelector constraint ```enable-tigera-runtime-security: t```, which means that it will not initially run on any nodes, because there are no nodes with an enable-tigera-runtime-security: t label.
+
+```
+kubectl get ds runtime-reporter -n calico-system -o yaml | sed '/enable-tigera-runtime-security/d' | kubectl apply -f -
+```
+
+#### Enable on specific nodes
+To enable malware detection on a particular node, add the ```enable-tigera-runtime-security: t``` label to that node. For example:
+
+```
+kubectl label nodes <node-name> enable-tigera-runtime-security=t
+```
+
+
+
+
+
 
 
 ## Anomaly Detection:
