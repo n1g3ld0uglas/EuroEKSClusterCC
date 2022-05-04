@@ -560,6 +560,7 @@ kubectl label nodes <node-name> enable-tigera-runtime-security=t
 ```
 
 
+![malware](https://user-images.githubusercontent.com/82048393/166684959-a385610f-2a7e-45f1-bd1f-56d514d86686.png)
 
 
 
